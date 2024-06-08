@@ -31,10 +31,7 @@ fun DiscoverScreen(vm: DiscoverViewModel = hiltViewModel<DiscoverViewModel>()) {
     var selectedTabIndex by remember { mutableIntStateOf(0) }
 
     val movies by vm.selectedMovies.collectAsState()
-
-    LaunchedEffect(key1 = true) {
-        vm.getNowPlayingMovies()
-    }
+    val trendingMovies by vm.trendingMovies.collectAsState()
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
@@ -48,7 +45,7 @@ fun DiscoverScreen(vm: DiscoverViewModel = hiltViewModel<DiscoverViewModel>()) {
 
         item(span = { GridItemSpan(3) }) { Spacer(modifier = Modifier.height(16.dp)) }
 
-        item(span = { GridItemSpan(3) }) { TrendingRow() }
+        item(span = { GridItemSpan(3) }) { TrendingRow(trendingMovies) }
 
         item(span = { GridItemSpan(3) }) { Spacer(modifier = Modifier.height(48.dp)) }
 

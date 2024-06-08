@@ -6,7 +6,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 
 class ApiService(private val client : HttpClient) {
-    suspend fun getTrendingMovies(endpoint: String): Resource<MoviesResponse> {
+    suspend fun getMovies(endpoint: String): Resource<MoviesResponse> {
         return safeApiCall {
             client.get(endpoint).body<MoviesResponse>()
         }

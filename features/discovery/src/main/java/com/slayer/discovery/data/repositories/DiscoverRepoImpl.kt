@@ -11,7 +11,7 @@ class DiscoverRepoImpl @Inject constructor(
     private val api: ApiService
 ) : DiscoverRepository {
     override suspend fun getNowPlayingMovies(): Resource<List<Movie>> {
-        return api.getTrendingMovies(Constants.ENDPOINT_NOW_PLAYING).map {
+        return api.getMovies(Constants.ENDPOINT_NOW_PLAYING).map {
             it.movieResults.map { result ->
                 Movie(
                     id = result.id,
@@ -19,6 +19,54 @@ class DiscoverRepoImpl @Inject constructor(
                     poster = "https://image.tmdb.org/t/p/w500/${result.posterPath}"
                 )
             }
+        }
+    }
+
+    override suspend fun getPopularMovies(): Resource<List<Movie>> {
+        return api.getMovies(Constants.ENDPOINT_POPULAR).map {
+            it.movieResults.map { result ->
+                Movie(
+                    id = result.id,
+                    title = result.title,
+                    poster = "https://image.tmdb.org/t/p/w500/${result.posterPath}"
+                )
+            }
+        }
+    }
+
+    override suspend fun getTopRatedMovies(): Resource<List<Movie>> {
+        return api.getMovies(Constants.ENDPOINT_TOP_RATED).map {
+            it.movieResults.map { result ->
+                Movie(
+                    id = result.id,
+                    title = result.title,
+                    poster = "https://image.tmdb.org/t/p/w500/${result.posterPath}"
+                )
+            }
+        }
+    }
+
+    override suspend fun getUpcomingMovies(): Resource<List<Movie>> {
+        return api.getMovies(Constants.ENDPOINT_UPCOMING).map {
+            it.movieResults.map { result ->
+                Movie(
+                    id = result.id,
+                    title = result.title,
+                    poster = "https://image.tmdb.org/t/p/w500/${result.posterPath}"
+                )
+            }
+        }
+    }
+
+    override suspend fun getTrendingMovies(): Resource<List<Movie>> {
+        return api.getMovies(Constants.ENDPOINT_TRENDING).map {
+            it.movieResults.map { result ->
+                Movie(
+                    id = result.id,
+                    title = result.title,
+                    poster = "https://image.tmdb.org/t/p/w500/${result.posterPath}"
+                )
+            }.take(10)
         }
     }
 }

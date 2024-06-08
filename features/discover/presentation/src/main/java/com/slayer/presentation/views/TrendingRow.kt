@@ -1,4 +1,4 @@
-package com.slayer.discovery.presentation.views
+package com.slayer.presentation.views
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,16 +17,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.slayer.core.common_ui.theme.primaryLight
-import com.slayer.discovery.domain.models.Movie
+import com.slayer.domain.models.Movie
 
 @Composable
-fun TrendingRow(movies : List<Movie>) {
+fun TrendingRow() {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(movies.size) {
+        items(Movie.getMovies().size) {
             Box {
-                PosterCard(movies[it], 200)
+                PosterCard(Movie.getMovies()[it], 200)
 
                 Text(
                     text = "${it + 1}",
