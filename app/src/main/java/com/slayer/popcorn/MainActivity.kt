@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.slayer.discover.DiscoverScreen
-import com.slayer.core.common_ui.theme.PopcornTheme
+import com.slayer.common_ui.theme.PopcornTheme
+import com.slayer.discovery.presentation.DiscoverScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -21,7 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Popcorn"
 include(":app")
-include(":core")
-include(":features:auth")
-include(":features:movies")
-include(":features:discover")
+include(":cores:network")
+include(":cores:common")
+include(":cores:common-ui")
+include(":features:discovery")
