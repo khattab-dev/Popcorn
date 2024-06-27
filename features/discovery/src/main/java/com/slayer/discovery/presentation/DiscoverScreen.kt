@@ -9,13 +9,8 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,8 +18,6 @@ import com.slayer.discovery.presentation.views.DefaultTabRow
 import com.slayer.discovery.presentation.views.PosterCard
 import com.slayer.discovery.presentation.views.SearchField
 import com.slayer.discovery.presentation.views.TrendingRow
-import com.slayer.discovery.domain.models.Movie
-import com.slayer.discovery.presentation.views.DefaultTab
 
 @Composable
 fun DiscoverScreen(vm: DiscoverViewModel = hiltViewModel<DiscoverViewModel>()) {
@@ -41,7 +34,7 @@ fun DiscoverScreen(vm: DiscoverViewModel = hiltViewModel<DiscoverViewModel>()) {
         contentPadding = PaddingValues(vertical = 24.dp, horizontal = 16.dp),
     ) {
         item(span = { GridItemSpan(3) }) {
-            SearchField(searchValue,vm::setSearchValue)
+            SearchField(searchValue,vm::updateSearchValue)
         }
 
         item(span = { GridItemSpan(3) }) { Spacer(modifier = Modifier.height(16.dp)) }
@@ -51,7 +44,7 @@ fun DiscoverScreen(vm: DiscoverViewModel = hiltViewModel<DiscoverViewModel>()) {
         item(span = { GridItemSpan(3) }) { Spacer(modifier = Modifier.height(48.dp)) }
 
         item(span = { GridItemSpan(3) }) {
-            DefaultTabRow(selectedTab,vm.moviesMap.keys.toList()) {
+            DefaultTabRow(selectedTab,vm.getMoviesKeys()) {
                 vm.updateSelectedTab(it)
             }
         }
