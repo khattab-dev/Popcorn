@@ -28,10 +28,11 @@ import com.slayer.discovery.presentation.views.DefaultTab
 
 @Composable
 fun DiscoverScreen(vm: DiscoverViewModel = hiltViewModel<DiscoverViewModel>()) {
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    val selectedTab by vm.selectedTab.collectAsState()
 
     val movies by vm.selectedMovies.collectAsState()
     val trendingMovies by vm.trendingMovies.collectAsState()
+    val searchValue by vm.searchValue.collectAsState()
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
@@ -40,7 +41,7 @@ fun DiscoverScreen(vm: DiscoverViewModel = hiltViewModel<DiscoverViewModel>()) {
         contentPadding = PaddingValues(vertical = 24.dp, horizontal = 16.dp),
     ) {
         item(span = { GridItemSpan(3) }) {
-            SearchField()
+            SearchField(searchValue,vm::setSearchValue)
         }
 
         item(span = { GridItemSpan(3) }) { Spacer(modifier = Modifier.height(16.dp)) }
@@ -50,9 +51,8 @@ fun DiscoverScreen(vm: DiscoverViewModel = hiltViewModel<DiscoverViewModel>()) {
         item(span = { GridItemSpan(3) }) { Spacer(modifier = Modifier.height(48.dp)) }
 
         item(span = { GridItemSpan(3) }) {
-            DefaultTabRow(selectedTabIndex,vm.moviesMap.keys.toList()) {
-                selectedTabIndex = it
-                vm.setSelectedMovies(it)
+            DefaultTabRow(selectedTab,vm.moviesMap.keys.toList()) {
+                vm.updateSelectedTab(it)
             }
         }
 

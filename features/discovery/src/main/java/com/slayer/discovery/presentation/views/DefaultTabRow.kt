@@ -5,8 +5,6 @@ import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.slayer.discovery.domain.models.Movie
-import com.slayer.discovery.domain.models.Movie.Companion.movieMap
 
 @Composable
 fun DefaultTabRow(

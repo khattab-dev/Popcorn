@@ -12,9 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SearchField() {
+fun SearchField(
+    searchValue: String,
+    onValueChange: (String) -> Unit
+) {
     TextField(
-        value = "",
+        value = searchValue,
         label = { Text(text = "Search") },
         trailingIcon = {
             Icon(
@@ -22,9 +25,7 @@ fun SearchField() {
                 contentDescription = null
             )
         },
-        onValueChange = {
-
-        },
+        onValueChange = onValueChange,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
     )
