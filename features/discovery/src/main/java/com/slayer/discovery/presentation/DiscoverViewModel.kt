@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.slayer.common.Constants
+import com.slayer.common.utils.printToLog
 import com.slayer.discovery.domain.usecases.GetNowPlayingMovies
 import com.slayer.discovery.domain.models.Movie
 import com.slayer.discovery.domain.usecases.GetPopularMovies
@@ -56,7 +57,7 @@ class DiscoverViewModel @Inject constructor(
             getNowPlayingMovies.invoke().onSuccess {
                 moviesMap[Constants.NOW_PLAYING] = it
             }.onFailure {
-                Log.d("TAG", "getNowMovies: ${it.message}")
+                it.message?.printToLog()
             }
         }
 
@@ -68,7 +69,7 @@ class DiscoverViewModel @Inject constructor(
             getPopularMovies.invoke().onSuccess {
                 moviesMap[Constants.POPULAR] = it
             }.onFailure {
-                Log.d("TAG", "getPopularMovies: ${it.message}")
+                it.message?.printToLog()
             }
         }
 
@@ -80,7 +81,7 @@ class DiscoverViewModel @Inject constructor(
             getTopRatedMovies.invoke().onSuccess {
                 moviesMap[Constants.TOP_RATED] = it
             }.onFailure {
-                Log.d("TAG", "getTopMovies: ${it.message}")
+                it.message?.printToLog()
             }
         }
 
@@ -92,7 +93,7 @@ class DiscoverViewModel @Inject constructor(
             getUpcomingMovies.invoke().onSuccess {
                 moviesMap[Constants.UPCOMING] = it
             }.onFailure {
-                Log.d("TAG", "getUpMovies: ${it.message}")
+                it.message?.printToLog()
             }
         }
 
@@ -109,7 +110,7 @@ class DiscoverViewModel @Inject constructor(
                 _trendingMovies.value = it
             }
         }.onFailure {
-            Log.d("TAG", "getTrendingMovies: ${it.message}")
+            it.message?.printToLog()
         }
     }
 
