@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,12 +26,14 @@ fun TrendingRow(movies : List<Movie>) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(movies.size) {
+        itemsIndexed(movies, key = { _, movie -> movie.id }) { index, movie ->
             Box {
-                PosterCard(movies[it], 200)
+//                PosterCard(movies[index], 200, false,) {
+//
+//                }
 
                 Text(
-                    text = "${it + 1}",
+                    text = "${index + 1}",
                     style = TextStyle(
                         fontSize = 96.sp, color = primaryLight, drawStyle = Stroke(
                             miter = 10f,
@@ -48,7 +52,7 @@ fun TrendingRow(movies : List<Movie>) {
                 )
 
                 Text(
-                    text = "${it + 1}",
+                    text = "${index + 1}",
                     style = TextStyle(
                         fontSize = 96.sp, color = Color(0xFF242A32)
                     ),
