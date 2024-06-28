@@ -10,7 +10,9 @@ fun MoviesResponse.toMovies() : List<Movie> {
             id = result.id,
             title = result.title,
             poster = "https://image.tmdb.org/t/p/w500/${result.posterPath}",
-            rating = String.format(Locale.getDefault(),"%.1f", result.voteAverage,).toDouble()
+            rating = String.format(Locale.getDefault(),"%.1f", result.voteAverage,).toDouble(),
+            lang = result.originalLanguage.replace(result.originalLanguage[0], result.originalLanguage[0].uppercaseChar()),
+            desc = result.overview
         )
     }
 }
