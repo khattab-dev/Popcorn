@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -22,15 +23,22 @@ import com.slayer.core.common_ui.theme.primaryLight
 import com.slayer.discovery.domain.models.Movie
 
 @Composable
-fun TrendingRow(movies : List<Movie>) {
+fun TrendingRow(
+    trendingMovies: List<Movie>,
+    trendingMoviesRotatedStates: SnapshotStateMap<Int, Boolean>
+) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        itemsIndexed(movies, key = { _, movie -> movie.id }) { index, movie ->
+        itemsIndexed(trendingMovies, key = { _, movie -> movie.id }) { index, movie ->
             Box {
-//                PosterCard(movies[index], 200, false,) {
-//
-//                }
+                PosterCard(
+                    movie = movie,
+                    250,
+                    isRotated = trendingMoviesRotatedStates.getOrElse(index) { false }) {
+                    trendingMoviesRotatedStates[index] =
+                        !trendingMoviesRotatedStates.getOrElse(index) { false }
+                }
 
                 Text(
                     text = "${index + 1}",

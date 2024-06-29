@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt)
 }
 
@@ -20,6 +21,7 @@ android {
         compose = true
     }
 
+
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
@@ -33,10 +35,16 @@ android {
             )
         }
     }
+
+    composeCompiler {
+
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -75,7 +83,4 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.coil)
-
-        implementation(libs.cloudy)
-
 }

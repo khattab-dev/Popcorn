@@ -1,20 +1,19 @@
 [versions]
-agp = "8.4.0"
-cloudy = "0.1.2"
+agp = "8.5.0"
 coil = "2.6.0"
 hiltNavigationCompose = "1.2.0"
-kotlin = "1.9.0"
+kotlin = "2.0.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.8.1"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.2"
 activityCompose = "1.9.0"
-composeBom = "2024.05.00"
+composeBom = "2024.06.00"
 appcompat = "1.7.0"
 material = "1.12.0"
-uiTextGoogleFonts = "1.6.7"
-ksp = "1.9.0-1.0.13"
+uiTextGoogleFonts = "1.6.8"
+ksp = "2.0.0-1.0.22"
 hilt = "2.49"
 ktor = "2.3.10"
 kotlinxSerializationJson = "1.6.3"
@@ -22,7 +21,6 @@ kotlinxSerializationJson = "1.6.3"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
-cloudy = { module = "com.github.skydoves:cloudy", version.ref = "cloudy" }
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -60,5 +58,6 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 

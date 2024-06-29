@@ -19,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.slayer.core.common_ui.theme.primaryLight
+import com.slayer.discovery.domain.models.Movie
 import com.slayer.discovery.presentation.views.DefaultTabRow
 import com.slayer.discovery.presentation.views.PosterCard
 import com.slayer.discovery.presentation.views.SearchField
@@ -59,51 +61,7 @@ fun DiscoverScreen(vm: DiscoverViewModel = hiltViewModel<DiscoverViewModel>()) {
         item(span = { GridItemSpan(2) }) { Spacer(modifier = Modifier.height(16.dp)) }
 
         item(span = { GridItemSpan(2) }) {
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                itemsIndexed(trendingMovies, key = { _, movie -> movie.id }) { index, movie ->
-                    Box {
-                        PosterCard(
-                            item = movie,
-                            250,
-                            isRotated = trendingMoviesRotatedStates.getOrElse(index) { false },
-                            genres = movie.genresIds.mapNotNull { vm.genresMap[it] }) {
-                            trendingMoviesRotatedStates[index] =
-                                !trendingMoviesRotatedStates.getOrElse(index) { false }
-                        }
-
-                        Text(
-                            text = "${index + 1}",
-                            style = TextStyle(
-                                fontSize = 96.sp, color = primaryLight, drawStyle = Stroke(
-                                    miter = 10f,
-                                    width = 5f,
-                                    join = StrokeJoin.Round
-                                ),
-                                shadow = Shadow(
-                                    color = Color(0xFF0296E5),
-                                    offset = Offset.Zero,  // Center the shadow around the text
-                                    blurRadius = 16f  // Adjust blur radius for glow effect
-                                )
-                            ),
-                            modifier = Modifier
-                                .align(Alignment.BottomStart)
-                                .offset(y = 48.dp)
-                        )
-
-                        Text(
-                            text = "${index + 1}",
-                            style = TextStyle(
-                                fontSize = 96.sp, color = Color(0xFF242A32)
-                            ),
-                            modifier = Modifier
-                                .align(Alignment.BottomStart)
-                                .offset(y = 48.dp)
-                        )
-                    }
-                }
-            }
+            TrendingRow(trendingMovies, trendingMoviesRotatedStates)
         }
 
         item(span = { GridItemSpan(2) }) { Spacer(modifier = Modifier.height(48.dp)) }
@@ -116,11 +74,11 @@ fun DiscoverScreen(vm: DiscoverViewModel = hiltViewModel<DiscoverViewModel>()) {
 
         itemsIndexed(movies, key = { _, movie -> movie.id }) { index, movie ->
             PosterCard(
-                item = movie,
+                movie = movie,
                 250,
-                isRotated = rotatedStates.getOrElse(index) { false },
-                genres = movie.genresIds.mapNotNull { vm.genresMap[it] }) {
-                rotatedStates[index] = !rotatedStates.getOrElse(index) { false }
+                isRotated = rotatedStates.getOrElse(movie.id) { false },
+            ) {
+                rotatedStates[movie.id] = !rotatedStates.getOrElse(movie.id) { false }
             }
         }
     }
