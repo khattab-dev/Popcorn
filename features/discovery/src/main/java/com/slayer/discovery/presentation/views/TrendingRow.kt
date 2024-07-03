@@ -25,7 +25,8 @@ import com.slayer.discovery.domain.models.Movie
 @Composable
 fun TrendingRow(
     trendingMovies: List<Movie>,
-    trendingMoviesRotatedStates: SnapshotStateMap<Int, Boolean>
+    trendingMoviesRotatedStates: SnapshotStateMap<Int, Boolean>,
+    onMovieClick: (Int) -> Unit
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -35,10 +36,14 @@ fun TrendingRow(
                 PosterCard(
                     movie = movie,
                     250,
-                    isRotated = trendingMoviesRotatedStates.getOrElse(index) { false }) {
-                    trendingMoviesRotatedStates[index] =
-                        !trendingMoviesRotatedStates.getOrElse(index) { false }
-                }
+                    isRotated = trendingMoviesRotatedStates.getOrElse(index) { false },
+                    onInfoClick = {
+                        trendingMoviesRotatedStates[index] =
+                            !trendingMoviesRotatedStates.getOrElse(index) { false }                    },
+                    onMovieClick = {
+                        onMovieClick(movie.id)
+                    }
+                )
 
                 Text(
                     text = "${index + 1}",

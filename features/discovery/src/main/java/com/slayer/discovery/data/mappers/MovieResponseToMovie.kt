@@ -1,7 +1,7 @@
 package com.slayer.discovery.data.mappers
 
 import com.slayer.discovery.domain.models.Movie
-import com.slayer.network.dto.MoviesResponse
+import com.slayer.network.dto.movies.MoviesResponse
 import java.util.Locale
 
 fun MoviesResponse.toMovies() : List<Movie> {

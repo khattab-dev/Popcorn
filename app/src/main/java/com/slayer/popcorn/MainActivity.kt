@@ -9,8 +9,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.slayer.common_ui.Routes
 import com.slayer.common_ui.theme.PopcornTheme
 import com.slayer.discovery.presentation.DiscoverScreen
+import com.slayer.movie_details.presentation.MovieDetailsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,10 +24,25 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val controller = rememberNavController()
+
             PopcornTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
-                        DiscoverScreen()
+                        NavHost(
+                            navController = controller,
+                            startDestination = Routes.Discovery
+                        ) {
+                            composable<Routes.Discovery> {
+                                DiscoverScreen() {
+                                    controller.navigate(Routes.MovieDetailsArgs(it))
+                                }
+                            }
+
+                            composable<Routes.MovieDetailsArgs> {
+                                MovieDetailsScreen()
+                            }
+                        }
                     }
                 }
             }

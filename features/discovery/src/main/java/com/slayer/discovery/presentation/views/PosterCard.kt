@@ -3,6 +3,7 @@ package com.slayer.discovery.presentation.views
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,7 +44,8 @@ fun PosterCard(
     movie: Movie,
     height: Int,
     isRotated: Boolean,
-    onInfoClick: () -> Unit
+    onInfoClick: () -> Unit,
+    onMovieClick: (Int) -> Unit
 ) {
     val rotation by animateFloatAsState(
         targetValue = if (isRotated) 180f else 0f,
@@ -68,7 +70,9 @@ fun PosterCard(
                 rotationY = rotation
                 cameraDistance = 8 * density
             }
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(16.dp)).clickable {
+                onMovieClick(movie.id)
+            }
     ) {
         if (!isRotated) {
             PosterFront(

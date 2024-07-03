@@ -25,13 +25,13 @@ class DiscoverViewModel @Inject constructor(
     val selectedMovies: StateFlow<List<Movie>> = _selectedMovies.asStateFlow()
 
     private val _trendingMovies = MutableStateFlow(emptyList<Movie>())
-    val trendingMovies: StateFlow<List<Movie>> = _trendingMovies.asStateFlow()
+    val trendingMovies = _trendingMovies.asStateFlow()
 
     private val _searchValue = MutableStateFlow("")
-    val searchValue: StateFlow<String> = _searchValue.asStateFlow()
+    val searchValue = _searchValue.asStateFlow()
 
     private val _selectedTab = MutableStateFlow(0)
-    val selectedTab: StateFlow<Int> = _selectedTab.asStateFlow()
+    val selectedTab = _selectedTab.asStateFlow()
 
     private val moviesMap: MutableMap<String, List<Movie>> = mutableMapOf(
         Constants.NOW_PLAYING to emptyList(),
@@ -52,7 +52,10 @@ class DiscoverViewModel @Inject constructor(
      * Fetches movies from the provided use case and stores them in the moviesMap under the given key.
      * If the movies are already fetched, it does nothing.
      */
-    private suspend fun fetchAndStoreMovies(key: String, fetchMovies: suspend () -> Resource<List<Movie>>) {
+    private suspend fun fetchAndStoreMovies(
+        key: String,
+        fetchMovies: suspend () -> Resource<List<Movie>>
+    ) {
         if (moviesMap[key].isNullOrEmpty()) {
             fetchMovies.invoke().onSuccess {
                 moviesMap[key] = it
@@ -133,7 +136,7 @@ class DiscoverViewModel @Inject constructor(
      * Return the list of keys in the moviesMap.
      * To be used in the tab layout in the UI.
      */
-    fun getMoviesKeys() : List<String> {
+    fun getMoviesKeys(): List<String> {
         return moviesMap.keys.toList()
     }
 }

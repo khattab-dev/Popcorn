@@ -1,4 +1,4 @@
-package com.slayer.network.dto
+package com.slayer.network.dto.movies
 
 
 import kotlinx.serialization.SerialName
