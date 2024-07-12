@@ -46,12 +46,13 @@ android {
 
 dependencies {
     implementation(project(":cores:common-ui"))
+    implementation(project(":cores:network"))
+    implementation(project(":cores:common"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(project(":cores:network"))
-    implementation(project(":cores:common"))
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -9,7 +9,7 @@ data class MovieDetailsResponse(
     @SerialName("adult")
     val adult: Boolean,
     @SerialName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
 //    @SerialName("belongs_to_collection")
 //    val belongsToCollection: BelongsToCollection,
     @SerialName("budget")

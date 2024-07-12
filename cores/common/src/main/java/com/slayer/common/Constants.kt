@@ -19,4 +19,7 @@ object Constants {
     const val POPULAR = "Popular"
     const val TOP_RATED = "Top Rated"
     const val UPCOMING = "Upcoming"
+
+    const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
+    const val IMAGE_BASE_URL_HD = "https://image.tmdb.org/t/p/original"
 }
