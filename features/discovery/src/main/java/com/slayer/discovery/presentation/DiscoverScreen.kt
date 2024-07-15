@@ -65,6 +65,7 @@ fun DiscoverScreen(vm: DiscoverViewModel = hiltViewModel<DiscoverViewModel>(),on
     val movies by vm.selectedMovies.collectAsState()
     val trendingMovies by vm.trendingMovies.collectAsState()
     val searchValue by vm.searchValue.collectAsState()
+
     val rotatedStates = remember { mutableStateMapOf<Int, Boolean>() }
     val trendingMoviesRotatedStates = remember { mutableStateMapOf<Int, Boolean>() }
 

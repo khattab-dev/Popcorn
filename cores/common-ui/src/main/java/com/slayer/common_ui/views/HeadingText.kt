@@ -1,4 +1,4 @@
-package com.slayer.discovery.presentation.views
+package com.slayer.common_ui.views
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +27,7 @@ fun HeadingTextOne(
 
 @Composable
 fun HeadingTextTwo(
+    minLines : Int = 1,
     text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start
@@ -34,6 +35,7 @@ fun HeadingTextTwo(
     Text(
         modifier = modifier,
         text = text,
+        minLines = minLines,
         style = TextStyle(
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,

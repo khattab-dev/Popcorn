@@ -23,6 +23,8 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -33,9 +35,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.slayer.common.utils.createGenresList
+import com.slayer.common_ui.views.BadgeCard
+import com.slayer.common_ui.views.HeadingTextFour
+import com.slayer.common_ui.views.HeadingTextThree
+import com.slayer.common_ui.views.HeadingTextTwo
 import com.slayer.discovery.R
 import com.slayer.discovery.domain.models.Movie
 
@@ -70,7 +78,8 @@ fun PosterCard(
                 rotationY = rotation
                 cameraDistance = 8 * density
             }
-            .clip(RoundedCornerShape(16.dp)).clickable {
+            .clip(RoundedCornerShape(16.dp))
+            .clickable {
                 onMovieClick(movie.id)
             }
     ) {
@@ -105,21 +114,14 @@ private fun PosterFront(
             .fillMaxSize()
             .padding(8.dp)
     ) {
+        InfoButton(onInfoBtnClick)
+
         IconBadge(
-            text = "${item.rating}",
+            text = item.rating,
             iconVector = Icons.Filled.Star,
             alignment = Alignment.TopEnd,
             color = Color.Yellow
         )
-
-        IconBadge(
-            text = item.lang,
-            iconRes = R.drawable.baseline_language_24,
-            alignment = Alignment.BottomEnd,
-            color = Color.White
-        )
-
-        InfoButton(onInfoBtnClick)
     }
 }
 
@@ -144,16 +146,9 @@ private fun PosterBack(
             .padding(8.dp)
     ) {
         IconBadge(
-            text = "${item.rating}",
-            iconVector = Icons.Filled.Star,
+            text = item.lang,
+            iconRes = R.drawable.baseline_language_24,
             alignment = Alignment.TopEnd,
-            color = Color.Yellow
-        )
-
-        IconBadge(
-            text = item.releaseDate,
-            iconVector = Icons.Filled.DateRange,
-            alignment = Alignment.BottomEnd,
             color = Color.White
         )
 
@@ -162,21 +157,10 @@ private fun PosterBack(
             horizontalAlignment = Alignment.Start
         ) {
             InfoButton(onInfoBtnClick)
-
             Spacer(modifier = Modifier.height(32.dp))
-
-            HeadingTextTwo(text = item.title)
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                createGenresList(item.genresIds).forEach { genre ->
-                    BadgeCard(text = genre, textColor = Color.White)
-                }
-            }
+            HeadingTextThree(text = item.title)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = item.releaseDate, style = TextStyle(fontSize = 12.sp), color = Color.LightGray)
         }
     }
 }
@@ -188,10 +172,12 @@ private fun PosterImage(
     item: Movie
 ) {
     AsyncImage(
-        modifier = Modifier.graphicsLayer {
-            alpha = animateValue
-            rotationY = rotation
-        }.fillMaxSize(),
+        modifier = Modifier
+            .graphicsLayer {
+                alpha = animateValue
+                rotationY = rotation
+            }
+            .fillMaxSize(),
         model = item.poster,
         contentScale = ContentScale.Crop,
         contentDescription = null,
@@ -212,7 +198,9 @@ private fun InfoButton(onInfoBtnClick: () -> Unit) {
             imageVector = Icons.Filled.Info,
             contentDescription = null,
             tint = Color.White,
-            modifier = Modifier.size(24.dp).shadow(shape = CircleShape, elevation = 16.dp, clip = true)
+            modifier = Modifier
+                .size(24.dp)
+                .shadow(shape = CircleShape, elevation = 16.dp, clip = true)
         )
     }
 }

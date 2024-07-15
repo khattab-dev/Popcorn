@@ -1,9 +1,10 @@
-package com.slayer.discovery.presentation.views
+package com.slayer.common_ui.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,8 +22,8 @@ fun BadgeCard(
     Box(
         modifier = Modifier
             .background(
-                Color(0xFFFFA500),
-                shape = RoundedCornerShape(16.dp)
+                MaterialTheme.colorScheme.secondary,
+                shape = RoundedCornerShape(4.dp)
             )
             .padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
