@@ -27,7 +27,6 @@ fun HeadingTextOne(
 
 @Composable
 fun HeadingTextTwo(
-    minLines : Int = 1,
     text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start
@@ -35,7 +34,6 @@ fun HeadingTextTwo(
     Text(
         modifier = modifier,
         text = text,
-        minLines = minLines,
         style = TextStyle(
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,

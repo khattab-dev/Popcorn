@@ -37,6 +37,7 @@ object NetworkModule {
         install(ContentNegotiation) {
             json(Json{
                 ignoreUnknownKeys = true
+                coerceInputValues = true
             })
         }
     }
