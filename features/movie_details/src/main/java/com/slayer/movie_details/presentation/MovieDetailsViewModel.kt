@@ -9,6 +9,7 @@ import com.slayer.common_ui.Routes
 import com.slayer.movie_details.domain.models.Cast
 import com.slayer.movie_details.domain.models.MovieDetails
 import com.slayer.movie_details.domain.usecases.GetCastUseCase
+import com.slayer.movie_details.domain.usecases.GetMovieBackdropsUseCase
 import com.slayer.movie_details.domain.usecases.GetMovieDetailsUseCase
 import com.slayer.network.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +23,8 @@ import javax.inject.Inject
 class MovieDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
-    private val getCastUseCase: GetCastUseCase
+    private val getCastUseCase: GetCastUseCase,
+    private val getMovieBackdropsUseCase: GetMovieBackdropsUseCase
 ) : ViewModel() {
     private val movieId = savedStateHandle.toRoute<Routes.MovieDetailsArgs>().id
 
@@ -32,10 +34,14 @@ class MovieDetailsViewModel @Inject constructor(
     private val _cast = MutableStateFlow<List<Cast>>(emptyList())
     val cast = _cast.asStateFlow()
 
+    private val _backdrops = MutableStateFlow<List<String>>(emptyList())
+    val backdrops = _backdrops.asStateFlow()
+
     init {
         viewModelScope.launch {
             fetchMovieDetails()
             fetchMovieCast()
+            fetchBackdrops()
         }
     }
 
@@ -50,6 +56,14 @@ class MovieDetailsViewModel @Inject constructor(
     private suspend fun fetchMovieCast() {
         getCastUseCase.invoke(movieId).onSuccess {
             _cast.value = it
+        }.onFailure {
+            it.message?.printToLog()
+        }
+    }
+
+    private suspend fun fetchBackdrops() {
+        getMovieBackdropsUseCase.invoke(movieId).onSuccess {
+            _backdrops.value = it
         }.onFailure {
             it.message?.printToLog()
         }

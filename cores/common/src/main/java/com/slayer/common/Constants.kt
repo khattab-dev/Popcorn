@@ -14,6 +14,7 @@ object Constants {
     const val ENDPOINT_TRENDING = "trending/movie/day"
     const val ENDPOINT_MOVIE_DETAILS = "movie/"
     const val ENDPOINT_MOVIE_CASTS = "movie/{movie_id}/credits"
+    const val ENDPOINT_MOVIE_IMAGES = "movie/{movie_id}/images"
 
     // MOVIES KEYS
     const val NOW_PLAYING = "Now Playing"
