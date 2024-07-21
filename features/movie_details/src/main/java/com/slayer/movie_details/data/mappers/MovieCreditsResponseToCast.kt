@@ -2,6 +2,7 @@ package com.slayer.movie_details.data.mappers
 
 import com.slayer.common.Constants
 import com.slayer.common.utils.formatLanguage
+import com.slayer.common.utils.formatPosterUrlWithPath
 import com.slayer.common.utils.formatRating
 import com.slayer.movie_details.domain.models.Cast
 import com.slayer.movie_details.domain.models.MovieDetails
@@ -13,7 +14,7 @@ fun MovieCreditsResponse.toCast(): List<Cast> {
         Cast(
             id = it.id,
             name = it.name,
-            image = "${Constants.IMAGE_BASE_URL}${it.profilePath}",
+            image = formatPosterUrlWithPath(isHighQuality = false, it.profilePath ?: ""),
             isMale = it.gender == 0
         )
     }

@@ -2,13 +2,17 @@ package com.slayer.discovery.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.slayer.common.Constants
 import com.slayer.common.utils.printToLog
 import com.slayer.discovery.domain.models.Movie
-import com.slayer.discovery.domain.usecases.*
-import com.slayer.network.Resource
+import com.slayer.discovery.domain.usecases.GetNowPlayingMovies
+import com.slayer.discovery.domain.usecases.GetPopularMovies
+import com.slayer.discovery.domain.usecases.GetTopRatedMovies
+import com.slayer.discovery.domain.usecases.GetTrendingMovies
+import com.slayer.discovery.domain.usecases.GetUpcomingMovies
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,30 +25,25 @@ class DiscoverViewModel @Inject constructor(
     private val getTrendingMovies: GetTrendingMovies
 ) : ViewModel() {
 
-    private val _selectedMovies = MutableStateFlow(emptyList<Movie>())
-    val selectedMovies: StateFlow<List<Movie>> = _selectedMovies.asStateFlow()
+    private val _nowPlaying = MutableStateFlow(emptyList<Movie>())
+    val nowPlaying: StateFlow<List<Movie>> = _nowPlaying.asStateFlow()
+
+    private val _upcoming = MutableStateFlow(emptyList<Movie>())
+    val upcoming: StateFlow<List<Movie>> = _upcoming.asStateFlow()
+
+    private val _topRated = MutableStateFlow(emptyList<Movie>())
+    val topRated: StateFlow<List<Movie>> = _topRated.asStateFlow()
+
+    private val _popular = MutableStateFlow(emptyList<Movie>())
+    val popular: StateFlow<List<Movie>> = _popular.asStateFlow()
 
     private val _trendingMovies = MutableStateFlow(emptyList<Movie>())
     val trendingMovies = _trendingMovies.asStateFlow()
 
-    private val _searchValue = MutableStateFlow("")
-    val searchValue = _searchValue.asStateFlow()
-
-    private val _selectedTab = MutableStateFlow(0)
-    val selectedTab = _selectedTab.asStateFlow()
-
-    private val moviesMap: MutableMap<String, List<Movie>> = mutableMapOf(
-        Constants.NOW_PLAYING to emptyList(),
-        Constants.POPULAR to emptyList(),
-        Constants.TOP_RATED to emptyList(),
-        Constants.UPCOMING to emptyList()
-    )
-
     init {
         viewModelScope.launch {
-            // Initialize trending movies and start collecting movies based on selected tab
-            fetchTrendingMovies(null)
-            collectMoviesByTab()
+            fetchTrendingMovies()
+            fetchDiscoverMovies()
         }
     }
 
@@ -52,91 +51,42 @@ class DiscoverViewModel @Inject constructor(
      * Fetches movies from the provided use case and stores them in the moviesMap under the given key.
      * If the movies are already fetched, it does nothing.
      */
-    private suspend fun fetchAndStoreMovies(
-        key: String,
-        fetchMovies: suspend () -> Resource<List<Movie>>
-    ) {
-        if (moviesMap[key].isNullOrEmpty()) {
-            fetchMovies.invoke().onSuccess {
-                moviesMap[key] = it
-            }.onFailure {
-                it.message?.printToLog()
-            }
-        }
-    }
-
-    /**
-     * Updates the _selectedMovies flow with movies filtered by the search value.
-     * Fetches movies if not already present in the moviesMap.
-     */
-    private suspend fun updateMovies(key: String, value: String) {
-        fetchAndStoreMovies(key) {
-            when (key) {
-                Constants.NOW_PLAYING -> getNowPlayingMovies.invoke()
-                Constants.POPULAR -> getPopularMovies.invoke()
-                Constants.TOP_RATED -> getTopRatedMovies.invoke()
-                Constants.UPCOMING -> getUpcomingMovies.invoke()
-                else -> Resource.Failure(IllegalArgumentException("Unknown key"))
-            }
+    private suspend fun fetchDiscoverMovies() {
+        getNowPlayingMovies.invoke().onSuccess {
+            _nowPlaying.value = it
+        }.onFailure {
+            it.message?.printToLog()
         }
 
-        _selectedMovies.value = moviesMap[key]?.filter { movie ->
-            movie.title.contains(value, ignoreCase = true)
-        } ?: emptyList()
-    }
+        getUpcomingMovies.invoke().onSuccess {
+            _upcoming.value = it
+        }.onFailure {
+            it.message?.printToLog()
+        }
 
-    /**
-     * Fetches trending movies and updates the _trendingMovies flow.
-     * Filters the movies if a search value is provided.
-     */
-    private suspend fun fetchTrendingMovies(searchValue: String?) {
-        getTrendingMovies.invoke().onSuccess {
-            _trendingMovies.value = if (!searchValue.isNullOrEmpty()) {
-                it.filter { movie -> movie.title.contains(searchValue, ignoreCase = true) }
-            } else {
-                it
-            }
+        getPopularMovies.invoke().onSuccess {
+            _popular.value = it
+        }.onFailure {
+            it.message?.printToLog()
+        }
+
+        getTopRatedMovies.invoke().onSuccess {
+            _topRated.value = it
         }.onFailure {
             it.message?.printToLog()
         }
     }
 
-    /**
-     * Updates the search value flow.
-     */
-    fun updateSearchValue(value: String) {
-        _searchValue.value = value
-    }
 
     /**
-     * Updates the selected tab flow.
+     * Fetches trending movies and updates the _trendingMovies flow.
+     * Filters the movies if a search value is provided.
      */
-    fun updateSelectedTab(index: Int) {
-        _selectedTab.value = index
-    }
-
-    /**
-     * Collects movies based on the selected tab and search value.
-     * Updates the _selectedMovies flow with the appropriate movies.
-     */
-    private fun collectMoviesByTab() = viewModelScope.launch {
-        combine(searchValue, selectedTab) { searchValue, selectedTab ->
-            Pair(searchValue, selectedTab)
-        }.collectLatest { (searchValue, selectedTab) ->
-            when (selectedTab) {
-                0 -> updateMovies(Constants.NOW_PLAYING, searchValue)
-                1 -> updateMovies(Constants.POPULAR, searchValue)
-                2 -> updateMovies(Constants.TOP_RATED, searchValue)
-                else -> updateMovies(Constants.UPCOMING, searchValue)
-            }
+    private suspend fun fetchTrendingMovies() {
+        getTrendingMovies.invoke().onSuccess {
+            _trendingMovies.value = it
+        }.onFailure {
+            it.message?.printToLog()
         }
-    }
-
-    /**
-     * Return the list of keys in the moviesMap.
-     * To be used in the tab layout in the UI.
-     */
-    fun getMoviesKeys(): List<String> {
-        return moviesMap.keys.toList()
     }
 }

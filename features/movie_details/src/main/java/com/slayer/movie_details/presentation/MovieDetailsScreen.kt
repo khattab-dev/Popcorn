@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -56,7 +55,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.slayer.common_ui.views.BadgeCard
 import com.slayer.common_ui.views.HeadingTextThree
-import com.slayer.common_ui.views.HeadingTextTwo
 import com.slayer.movie_details.R
 import kotlin.math.max
 
@@ -110,7 +108,7 @@ fun MovieDetailsScreen(vm: MovieDetailsViewModel = hiltViewModel<MovieDetailsVie
                             verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             Column {
-                                HeadingTextTwo(text = movie.title)
+                                HeadingTextThree(text = movie.title)
 
                                 Spacer(modifier = Modifier.height(4.dp))
 
@@ -169,7 +167,7 @@ fun MovieDetailsScreen(vm: MovieDetailsViewModel = hiltViewModel<MovieDetailsVie
 
             item {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    HeadingTextTwo(text = "Overview")
+                    HeadingTextThree(text = "Overview")
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = movie.overview,
@@ -185,7 +183,7 @@ fun MovieDetailsScreen(vm: MovieDetailsViewModel = hiltViewModel<MovieDetailsVie
 
             item {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    HeadingTextTwo(text = "Actors")
+                    HeadingTextThree(text = "Actors")
 
                     Row(
                         modifier = Modifier

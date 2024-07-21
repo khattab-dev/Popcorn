@@ -10,5 +10,6 @@ data class Movie(
     val rating: String,
     val lang: String,
     val releaseDate: String,
-    val genresIds: List<Int>
+    val genresIds: List<Int>,
+    val backdrop: String,
 )

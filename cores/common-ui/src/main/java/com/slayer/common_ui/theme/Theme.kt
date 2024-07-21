@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.slayer.core.common_ui.theme.*
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
