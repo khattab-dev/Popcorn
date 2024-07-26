@@ -37,87 +37,90 @@ import com.slayer.discovery.domain.models.Movie
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun Carousel(items: List<Movie>, height: Int) {
+fun Carousel(movies: List<Movie>, height: Int, onMovieClick: (Int) -> Unit,
+) {
 
     val pagerState = rememberPagerState(
-        pageCount = { items.size },
-        initialPage = 0
+        pageCount = { movies.size },
     )
 
-    HorizontalPager(
-        state = pagerState,
-        pageSpacing = 16.dp,
-        modifier = Modifier.fillMaxWidth()
-    ) { page ->
-        val movie = items[page]
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        HorizontalPager(
+            state = pagerState,
+            pageSpacing = 16.dp,
+            modifier = Modifier.fillMaxWidth()
+        ) { page ->
+            val movie = movies[page]
 
-        Box {
-            AsyncImage(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(8.dp))
-                    .height(height.dp)
-                    .clickable {
-
-                    }
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                Color.Black
-                            ),
-                            startY = 0f,
-                            endY = height.toFloat()  // Adjust as needed
-                        )
-                    ),
-                model = movie.backdrop,
-                contentScale = ContentScale.FillBounds,
-                contentDescription = null,
-                placeholder = painterResource(id = R.drawable.placeholder),
-                fallback = painterResource(id = R.drawable.placeholder),
-                error = painterResource(id = R.drawable.placeholder),
-            )
-
-            Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .background(
-                        shape = RoundedCornerShape(8.dp),
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                Color.Black.copy(alpha = 0.5f)
-                            ),
-                            startY = 0f,
-                            endY = height.toFloat()
-                        )
-                    )
-            )
-
-            val maxWidth = LocalConfiguration.current.screenWidthDp - 32
-
-            Column(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                HeadingTextFour(
-                    text = movie.title.uppercase(), modifier = Modifier
-                        .width((maxWidth / 1.75).dp)
+            Box(modifier = Modifier.clickable {
+                onMovieClick(movie.id)
+            }) {
+                AsyncImage(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(8.dp))
+                        .height(height.dp)
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    Color.Transparent,
+                                    Color.Black
+                                ),
+                                startY = 0f,
+                                endY = height.toFloat()  // Adjust as needed
+                            )
+                        ),
+                    model = movie.backdrop,
+                    contentScale = ContentScale.FillBounds,
+                    contentDescription = null,
+                    placeholder = painterResource(id = R.drawable.placeholder),
+                    fallback = painterResource(id = R.drawable.placeholder),
+                    error = painterResource(id = R.drawable.placeholder),
                 )
 
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    createGenresList(movie.genresIds).forEach {
-                        Text(
-                            text = it,
-                            color = MaterialTheme.colorScheme.secondary,
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Bold
+                Box(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .background(
+                            shape = RoundedCornerShape(8.dp),
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    Color.Transparent,
+                                    Color.Black.copy(alpha = 0.5f)
+                                ),
+                                startY = 0f,
+                                endY = height.toFloat()
+                            )
                         )
+                )
+
+                val maxWidth = LocalConfiguration.current.screenWidthDp - 32
+
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    HeadingTextFour(
+                        text = movie.title.uppercase(), modifier = Modifier
+                            .width((maxWidth / 1.75).dp)
+                    )
+
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        createGenresList(movie.genresIds).forEach {
+                            Text(
+                                text = it,
+                                color = MaterialTheme.colorScheme.secondary,
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
                     }
                 }
             }
         }
+
+        CarouselIndicator(movies = movies, pagerState = pagerState)
     }
 }

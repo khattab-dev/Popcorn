@@ -38,7 +38,7 @@ class DiscoverRepoImpl @Inject constructor(
 
     override suspend fun getTrendingMovies(): Resource<List<Movie>> {
         return api.getApiResponse<MoviesResponse>(Constants.ENDPOINT_TRENDING).map {
-            it.toMovies().take(10)
+            it.toMovies()
         }
     }
 }

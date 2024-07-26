@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,7 +22,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,15 +33,15 @@ import com.slayer.discovery.domain.models.Movie
 fun PosterCard(
     height: Int,
     movie: Movie,
-    onMovieClick: (Int) -> Unit
+    onMovieClick: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Column() {
+    Column {
         AsyncImage(
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(RoundedCornerShape(8.dp))
-                .height(height.dp)
+            modifier = modifier
                 .widthIn(max = 150.dp)
+                .height(height.dp)
+                .clip(RoundedCornerShape(8.dp))
                 .clickable {
                     onMovieClick(movie.id)
                 },
@@ -57,10 +54,8 @@ fun PosterCard(
         )
         Spacer(modifier = Modifier.height(4.dp))
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .width(150.dp), horizontalArrangement = Arrangement.SpaceBetween
-            
+            modifier = Modifier.width(150.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(movie.releaseDate.take(4), fontSize = 10.sp, color = Color.Gray)
 
@@ -76,13 +71,12 @@ fun PosterCard(
                     modifier = Modifier.size(10.dp),
                     tint = MaterialTheme.colorScheme.primary
                 )
-                Text("5.2", fontSize = 10.sp, color = Color.Gray)
+                Text(movie.rating, fontSize = 10.sp, color = Color.Gray)
             }
         }
 
         Text(
             modifier = Modifier.width(150.dp),
-            textAlign = TextAlign.Justify,
             text = movie.title,
             minLines = 2,
             maxLines = 2,
